@@ -220,5 +220,65 @@ from bimvee.plotEventRate import plotEventRate
 
 plotEventRate(data, periods=[0.001])
 
+#%%
+import numpy as np
+
+data = container['data']['ch0']['dvs']
+ts = data['ts']
+
+#%%
+
+for currentTime in range(9):
+    aVariable = ts >= currentTime 
+    print(currentTime, np.argmax(aVariable))
+    
+    
+
+#%%
+    
+[False, True, True, False, True, False, True, False, True]
+
+
+#%% 
+differences = []   
+for currentTime in range(9):
+    firstIdx = np.argmax(ts >= currentTime)
+    lastIdx = np.argmax(ts > currentTime + 1)
+    #print(currentTime, firstIdx, lastIdx)
+    print('time range: ' 
+          + str(currentTime) + '-' + str(currentTime + 1)
+          + ' first index: ' +  str(firstIdx)
+          + ' last index: ' + str(lastIdx)
+          + ' difference: ' + str(lastIdx - firstIdx))
+    differences.append(lastIdx - firstIdx)
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.plot(differences)    
+plt.ylim([0, max(differences)])
+ 
+#%% 
+period = 0.1
+differences = []   
+ourRange = np.arange(0, 9, period)
+for currentTime in ourRange:
+    firstIdx = np.argmax(ts >= currentTime)
+    lastIdx = np.argmax(ts > currentTime + period)
+    differences.append(lastIdx - firstIdx)
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots()
+ax.plot(ourRange, differences)    
+plt.ylim([0, max(differences)])
+    
+#%%
+
+from bimvee.plotEventRate import plotEventRate
+
+plotEventRate(data, periods=[0.001, 0.01, 0.1, 1])
+
+
 
 
