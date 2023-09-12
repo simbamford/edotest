@@ -258,8 +258,19 @@ fig, ax = plt.subplots()
 ax.plot(differences)    
 plt.ylim([0, max(differences)])
  
+#%%
+
+rateData = np.array(differences)
+
+rateDataBefore = rateData[:-2]
+rateDataMid = rateData[1 : -1]
+rateDataAfter = rateData[2 :]
+
+rateDataGoesUp = rateDataMid > rateDataBefore
+rateDataGoesDownAgain = rateDataAfter < rateDataMid
+
 #%% 
-period = 0.1
+period = 1
 differences = []   
 ourRange = np.arange(0, 9, period)
 for currentTime in ourRange:
