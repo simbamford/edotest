@@ -157,20 +157,53 @@ fig, ax = plt.subplots()
 ax.plot(receivers[:, 0], receivers[:, 1], 'o')
 ax.plot(emitters[:, 0], emitters[:, 1], 'x')
 
-for emitter in range(numEmitters):
-    for receiver in range(numReceivers):
-        rayColour = cm.rainbow(firstFrameCompressed[emitter, receiver])
-        x = [emitters[emitter, 0], receivers[receiver, 0]]
-        y = [emitters[emitter, 1], receivers[receiver, 1]]
-        plt.plot(x, y, color=rayColour)
     
-#%% P,ot the second frame as well
+#%% Generalise to other frames
         
+'''
+We see that there is a change of emitter every 6.83 samples;
+we'll use this observation manually for now; we may
+automate this detection later
+'''
+
+chosenSamples = np.arange(6.83, 164, 6.83).astype(int)
+
 fig, axes = plt.subplots(1,2)
 
-axes[0].imshow(firstFrame)
-axes[1].imshow(secondFrame)
+for frame, ax in zip([firstFrame, secondFrame], axes):
 
+    frameCompressed = frame[chosenSamples, :] / 4096
+    for emitter in range(numEmitters):
+        for receiver in range(numReceivers):
+            rayColour = cm.rainbow(frameCompressed[emitter, receiver])
+            x = [emitters[emitter, 0], receivers[receiver, 0]]
+            y = [emitters[emitter, 1], receivers[receiver, 1]]
+            ax.plot(x, y, color=rayColour)
+
+
+
+
+#%% Generalise to other frames
+        
+'''
+We see that there is a change of emitter every 6.83 samples;
+we'll use this observation manually for now; we may
+automate this detection later
+'''
+
+plt.close('all')
+
+
+for frame in [firstFrame, secondFrame]:
+
+    fig, ax = plt.subplots()
+    frameCompressed = frame[chosenSamples, :] / 4096
+    for emitter in range(numEmitters):
+        for receiver in range(numReceivers):
+            rayColour = cm.rainbow(frameCompressed[emitter, receiver])
+            x = [emitters[emitter, 0], receivers[receiver, 0]]
+            y = [emitters[emitter, 1], receivers[receiver, 1]]
+            ax.plot(x, y, color=rayColour)
 
 
 
