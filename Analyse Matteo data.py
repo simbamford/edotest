@@ -131,6 +131,7 @@ automate this detection later
 '''
 
 chosenSamples = np.arange(6.83, 164, 6.83).astype(int)
+#chosenSamples = np.arange(7, 164, 7).astype(int)
 
 fig, axes = plt.subplots(1,2)
 
@@ -148,6 +149,13 @@ for frame, ax in zip([firstFrame, secondFrame], axes):
 '''
 Insert here a reliable method of identifying the start of each sample
 '''
+
+#%%
+
+
+plt.close('all')
+plt.plot(np.arange(0, firstFrame.shape[0]), firstFrame[:, 23], '-o')
+plt.plot(chosenSamples, firstFrame[chosenSamples, 23], 'ro')
 
 #%% Find the indices of the first sample of every frame
             
